@@ -1,39 +1,80 @@
-name: Build Android APK
+import React from 'react';
+import { SafeAreaView, View, Text, StyleSheet, ScrollView } from 'react-native';
 
-on:
-  workflow_dispatch:
+export default function App() {
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.title}>⚽ Footy Online</Text>
+        <Text style={styles.subtitle}>
+          Football App • Live Scores • Watch Matches
+        </Text>
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>🔥 Live Matches</Text>
+          <Text style={styles.match}>No live matches right now.</Text>
+        </View>
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>📊 Football Stats</Text>
+          <Text style={styles.match}>Live scores and statistics coming soon.</Text>
+        </View>
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>🎙️ Commentary</Text>
+          <Text style={styles.match}>
+            Your approved commentators will be able to commentate on matches.
+          </Text>
+        </View>
 
-      - name: Install dependencies
-        run: npm install
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>👥 Community</Text>
+          <Text style={styles.match}>
+            Follow matches and interact with other Footy Online users.
+          </Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
-      - name: Generate Android project
-        run: npx expo prebuild --platform android --non-interactive
-
-      - name: Build APK
-        working-directory: android
-        run: chmod +x gradlew && ./gradlew assembleRelease
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Footy-Online-APK
-          path: android/app/build/outputs/apk/release/app-release.apk
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0b1220',
+  },
+  content: {
+    padding: 20,
+    paddingTop: 40,
+  },
+  title: {
+    fontSize: 34,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#b8c1d1',
+    textAlign: 'center',
+    marginBottom: 25,
+  },
+  card: {
+    backgroundColor: '#172033',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+  },
+  cardTitle: {
+    fontSize: 21,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginBottom: 10,
+  },
+  match: {
+    fontSize: 15,
+    color: '#cbd5e1',
+    lineHeight: 22,
+  },
+});
